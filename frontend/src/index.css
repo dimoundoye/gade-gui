@@ -1,0 +1,124 @@
+@import "tailwindcss";
+
+/*
+ * Charte Gade Gui (v2)
+ *
+ * Couleurs tirées des matières de l'entreprise :
+ * - ink   : bleu des bandeaux des poulaillers et du logo de la ferme (textes, fonds sombres)
+ * - brand : vert du logo Gade Gui (actions)
+ * - yolk  : jaune d'œuf, accent unique réservé au plateau d'œufs de l'accueil
+ * - chaux : blanc chaulé des bâtiments (fonds alternés)
+ * - line  : filets de séparation
+ *
+ * Typographie : une seule famille, Archivo. Les titres utilisent sa largeur étendue,
+ * comme les lettres peintes sur les bâtiments d'élevage ; le texte courant reste en largeur normale.
+ */
+@theme {
+  --font-sans: "Archivo Variable", ui-sans-serif, system-ui, sans-serif;
+
+  --color-ink: #12295a;
+  --color-ink-deep: #0c1d42;
+  --color-brand: #1f7a3a;
+  --color-brand-deep: #186030;
+  --color-yolk: #f5b51b;
+  --color-chaux: #eff2ee;
+  --color-line: #d5dce6;
+
+  /* Échelle typographique (taille + interligne) */
+  --text-display: clamp(2.5rem, 1.2rem + 4.4vw, 5rem);
+  --text-display--line-height: 0.96;
+  --text-page: clamp(2.5rem, 1.3rem + 4.2vw, 5rem);
+  --text-page--line-height: 1;
+  --text-headline: clamp(2.125rem, 1.35rem + 2.6vw, 3.625rem);
+  --text-headline--line-height: 1.05;
+  --text-lead: 1.3125rem;
+  --text-lead--line-height: 1.55;
+}
+
+@layer base {
+  html {
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  body {
+    @apply bg-white font-sans text-ink antialiased;
+    font-size: 1.0625rem;
+    line-height: 1.6;
+  }
+
+  h1,
+  h2,
+  h3 {
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background: var(--color-yolk);
+    color: var(--color-ink);
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-brand);
+    outline-offset: 3px;
+  }
+}
+
+/*
+ * Styles de titres : largeur, graisse et approche uniquement.
+ * La taille et l'interligne viennent des utilitaires text-display / text-page / text-headline,
+ * pour qu'aucune règle n'annule l'autre.
+ */
+@layer components {
+  .wrap {
+    width: 100%;
+    max-width: 78rem;
+    margin-inline: auto;
+    padding-inline: 1.25rem;
+  }
+
+  @media (min-width: 768px) {
+    .wrap {
+      padding-inline: 2.5rem;
+    }
+  }
+
+  .link {
+    @apply font-semibold text-brand underline decoration-brand/35 decoration-2 underline-offset-4 transition-colors hover:decoration-brand;
+  }
+
+  .field {
+    @apply w-full rounded-md border border-line bg-white px-4 py-3 text-base text-ink placeholder:text-ink/40 focus:border-brand focus:ring-4 focus:ring-brand/10 focus:outline-none;
+  }
+}
+
+/* Déclarés en @utility pour accepter les variantes Tailwind (ex. [&_h2]:type-title). */
+@utility type-display {
+  font-stretch: 122%;
+  font-weight: 800;
+  letter-spacing: -0.03em;
+}
+
+@utility type-headline {
+  font-stretch: 116%;
+  font-weight: 760;
+  letter-spacing: -0.022em;
+}
+
+@utility type-title {
+  font-stretch: 110%;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
